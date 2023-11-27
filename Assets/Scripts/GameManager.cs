@@ -9,6 +9,12 @@ namespace Com.SpeakGeek.JacquesPun
 {
     public class GameManager : MonoBehaviourPunCallbacks
     {
+        #region Public Fields
+
+        public static GameManager Instance;
+
+        #endregion
+        
         #region Photon Callbacks
 
         public override void OnLeftRoom()
@@ -43,6 +49,15 @@ namespace Com.SpeakGeek.JacquesPun
 
         #endregion
 
+        #region MonoBehaviour callbacks
+
+        private void Start()
+        {
+            Instance = this;
+        }
+
+        #endregion
+        
         #region Photon Callbacks
 
         public override void OnPlayerEnteredRoom(Player other)
