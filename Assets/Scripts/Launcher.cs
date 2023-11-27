@@ -26,6 +26,7 @@ namespace Com.SpeakGeek.JacquesPun
 
         //gameVersion to seperate players with different versions
         string gameVersion = "1";
+        bool isConnecting;
 
         #endregion
 
@@ -62,7 +63,7 @@ namespace Com.SpeakGeek.JacquesPun
             else
             {
                 // #Critical, we must first and foremost connect to Photon Online Server.
-                PhotonNetwork.ConnectUsingSettings();
+                isConnecting = PhotonNetwork.ConnectUsingSettings();
                 PhotonNetwork.GameVersion = gameVersion;
             }
         }
@@ -83,7 +84,11 @@ namespace Com.SpeakGeek.JacquesPun
         {
             Debug.Log("PUN Basics Tutorial/Launcher: OnConnectedToMaster() was called by PUN");
             // Try to find an existing room otherwise create one
-            PhotonNetwork.JoinRandomRoom();
+            if (isConnecting)
+            {
+                PhotonNetwork.JoinRandomRoom();
+                isConnecting = false;
+            }
         }
 
         public override void OnJoinRandomFailed(short returnCode, string message)
@@ -101,6 +106,15 @@ namespace Com.SpeakGeek.JacquesPun
         public override void OnJoinedRoom()
         {
             Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
+            // #Critical: We only load if we are the first player, else we rely on `PhotonNetwork.AutomaticallySyncScene` to sync our instance scene.
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+            {
+                Debug.Log("We load the 'Room for 1' ");
+
+                // #Critical
+                // Load the Room Level.
+                PhotonNetwork.LoadLevel("Room for 1");
+            }
         }
 
         #endregion
