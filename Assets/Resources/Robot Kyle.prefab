@@ -11,10 +11,9 @@ GameObject:
   - component: {fileID: 4687380822394386493}
   - component: {fileID: 160823896885230810}
   - component: {fileID: 5473661063172725423}
-  - component: {fileID: 2543488399409195942}
   m_Layer: 0
-  m_Name: beam Right
-  m_TagString: Untagged
+  m_Name: Beam Right
+  m_TagString: Beam
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84,27 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2543488399409195942
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1616561476739905582}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6988963940315744228
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,8 +129,8 @@ GameObject:
   - component: {fileID: 5722081946432083468}
   - component: {fileID: 5329260741395896254}
   m_Layer: 0
-  m_Name: beam Left
-  m_TagString: Untagged
+  m_Name: Beam Left
+  m_TagString: Beam
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -237,12 +215,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 10, y: 3, z: 1}
+  m_Center: {x: 3, y: 0, z: 0}
 --- !u!1001 &5262686304037304673
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -433,6 +411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beams: {fileID: 6988963940315744228}
   Health: 1
+  PlayerUiPrefab: {fileID: 7638141026352583526, guid: a6706e0c767137c45889e91e32fbd6fa, type: 3}
 --- !u!114 &5497085641398525403
 MonoBehaviour:
   m_ObjectHideFlags: 0

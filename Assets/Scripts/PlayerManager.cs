@@ -32,6 +32,13 @@ namespace Com.SpeakGeek.JacquesPun
 
         #endregion
 
+        #region Public Fields
+
+        [Tooltip("The Player's UI GameObject Prefab")] [SerializeField]
+        public GameObject PlayerUiPrefab;
+
+        #endregion
+
         #region Private Methods
 
 #if UNITY_5_4_OR_NEWER
@@ -85,21 +92,26 @@ namespace Com.SpeakGeek.JacquesPun
             {
                 Debug.LogError("<Color=Red><a>Missing</a></Color> CameraWork Component on playerPrefab.", this);
             }
+
+            if (PlayerUiPrefab != null)
+            {
+                GameObject _uiGo = Instantiate(PlayerUiPrefab);
+                _uiGo.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
+            }
+            else
+            {
+                Debug.LogWarning("<Color=Red><a>Missing</a></Color> PlayerUiPrefab reference on player Prefab.", this);
+            }
 #if UNITY_5_4_OR_NEWER
 // Unity 5.4 has a new scene management. register a method to call CalledOnLevelWasLoaded.
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
 #endif
         }
-#if !UNITY_5_4_OR_NEWER
-/// <summary>See CalledOnLevelWasLoaded. Outdated in Unity 5.4.</summary>
-void OnLevelWasLoaded(int level)
-{
-    this.CalledOnLevelWasLoaded(level);
-}
-#endif
 
         void CalledOnLevelWasLoaded(int level)
         {
+            GameObject _uiGo = Instantiate(this.PlayerUiPrefab);
+            _uiGo.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
             // check if we are outside the Arena and if it's the case, spawn around the center of the arena in a safe zone
             if (!Physics.Raycast(transform.position, -Vector3.up, 5f))
             {
@@ -112,11 +124,6 @@ void OnLevelWasLoaded(int level)
         /// </summary>
         void Update()
         {
-            if (photonView.IsMine)
-            {
-                ProcessInputs();
-            }
-
             // trigger Beams active state
             if (beams != null && IsFiring != beams.activeInHierarchy)
             {
@@ -135,6 +142,7 @@ void OnLevelWasLoaded(int level)
 
         void OnTriggerEnter(Collider other)
         {
+            Debug.Log("Trigger");
             if (!photonView.IsMine)
             {
                 return;
@@ -142,7 +150,7 @@ void OnLevelWasLoaded(int level)
 
             // We are only interested in Beamers
             // we should be using tags but for the sake of distribution, let's simply check by name.
-            if (!other.name.Contains("Beam"))
+            if (!other.gameObject.CompareTag("Beam"))
             {
                 return;
             }
@@ -152,6 +160,7 @@ void OnLevelWasLoaded(int level)
 
         void OnTriggerStay(Collider other)
         {
+            Debug.Log("Stay");
             // we dont' do anything if we are not the local player.
             if (!photonView.IsMine)
             {
@@ -160,7 +169,7 @@ void OnLevelWasLoaded(int level)
 
             // We are only interested in Beamers
             // we should be using tags but for the sake of distribution, let's simply check by name.
-            if (!other.name.Contains("Beam"))
+            if (!other.gameObject.CompareTag("Beam"))
             {
                 return;
             }
